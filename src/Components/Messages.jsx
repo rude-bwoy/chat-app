@@ -1,13 +1,41 @@
 import { useEffect, useState } from "react";
-//import { connectToScaledrone } from "../Helpers/scaledrone";
+
+let drone = null;
 
 export default function Messages() {
 
     const [messages, setMessages] = useState([]);
     const [myId, setMyId] = useState(null);
     
-    const drone = new window.Scaledrone(process.env.REACT_APP_CHANNEL_ID);
-    const room = drone.subscribe('first-chat');
+    useEffect(() => {
+        if(drone === null) {
+            connectToScaledrone();
+        }
+    }, []);
+
+    function connectToScaledrone() {
+
+        drone = new window.Scaledrone(process.env.REACT_APP_CHANNEL_ID);
+        const room = drone.subscribe('first-chat');
+
+        room.on('open', error => {
+            if (error) {
+                return console.error(error);
+            }    
+        });
+    
+        room.on('message', message => {
+            setMessages(prevMessages => [
+                ...prevMessages,
+                {
+                    "clientId": message.clientId,
+                    "timestamp": new Date(message.timestamp),
+                    "text": message.data.text
+                }
+            ]);
+        });
+   
+    }
 
     const sendMessage = (inputText) => {
         drone.publish({
@@ -18,22 +46,6 @@ export default function Messages() {
         });
     }
     
-    room.on('open', error => {
-        if (error) {
-            return console.error(error);
-        }    
-    });
-
-    room.on('message', message => {
-        setMessages(prevMessages => [
-            ...prevMessages,
-            {
-                "clientId": message.clientId,
-                "timestamp": new Date(message.timestamp),
-                "text": message.data.text
-            }
-        ]);
-    });
    
     return(
         <div className='main-container'>

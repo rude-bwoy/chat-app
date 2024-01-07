@@ -18,6 +18,13 @@ export default function Messages() {
         drone = new window.Scaledrone(process.env.REACT_APP_CHANNEL_ID);
         const room = drone.subscribe('first-chat');
 
+        drone.on('open', error => {
+            if (error) {
+                return console.error(error);
+            }
+            setMyId(drone.clientId);
+        });
+
         room.on('open', error => {
             if (error) {
                 return console.error(error);
@@ -29,7 +36,7 @@ export default function Messages() {
                 ...prevMessages,
                 {
                     "clientId": message.clientId,
-                    "timestamp": new Date(message.timestamp),
+                    "timestamp": new Date(message.timestamp * 1000),
                     "text": message.data.text
                 }
             ]);
@@ -47,17 +54,35 @@ export default function Messages() {
     }
     
    
+    function recalculateTimeStamp(timestamp) {
+        
+        const month   = timestamp.getUTCMonth() + 1; // months from 1-12
+        const day     = timestamp.getUTCDate();
+        const year    = timestamp.getUTCFullYear();
+        const hours   = timestamp.getHours();
+        const minutes = timestamp.getMinutes();
+
+        const newDate = day + "." + month + "." + year + " " + hours + ":" + minutes;
+
+        return newDate;
+    }
+
     return(
         <div className='main-container'>
           <div className='main-flex-items left'>
-            left
+            
           </div>
           <div className='main-flex-items right'>
             <div className='chat-container'>
                 <div className='messages'>
                     <ul>
-                        {console.log(messages)}
-                        {messages.map(message => <li key={crypto.randomUUID()}>{message.text}</li>)}  
+                        {messages.map(message => 
+                            <li key={crypto.randomUUID()} className={message.clientId === myId ? "me" : ""}>
+                                <div className="outer">
+                                    <div className="text">{message.text}</div>
+                                    <div className="date">{recalculateTimeStamp(message.timestamp)}</div>
+                                </div>
+                            </li>)}  
                     </ul>
                 </div>
               <Input sendMessage={sendMessage}/>

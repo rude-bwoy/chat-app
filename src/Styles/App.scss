@@ -1,6 +1,8 @@
 body, html {
  height: 100%;   
  margin: 0;
+ font-family: 'Courier New', Courier, monospace;
+ font-weight: 900;
 }
 
 .main-container {
@@ -10,7 +12,6 @@ body, html {
 
     .main-flex-items {
         
-        border: 1px solid grey;
         padding: 20px;
         flex: 1;
 
@@ -31,6 +32,8 @@ body, html {
     
                 .messages {
                     flex: 1;
+                    overflow-y: auto;
+                    overflow-x: visible;
                 }
 
                 .form {
@@ -51,11 +54,47 @@ body, html {
 }
 
 ul {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
         
     li {
         list-style: none;
-    }
+        padding: 10px;
+        
+        .outer {
+            padding: 10px;
+            background-color: antiquewhite;
+            border-radius: 10px;
+        }
 
+        &.me {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        &:not(.me) {
+            margin-right: auto;
+        }
+
+        .date {
+            padding: 0;
+            font-size: 10px;
+        }
+        
+        .text {
+            padding: 0;
+            padding-bottom: 4px;
+        }
+    }
+}
+
+form {
+    height: 100px;
+
+    #input {
+        padding: 10px;
+        font-size: 1.2rem;
+    }
 }

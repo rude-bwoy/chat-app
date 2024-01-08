@@ -3,6 +3,7 @@ body, html {
  margin: 0;
  font-family: 'Courier New', Courier, monospace;
  font-weight: 900;
+ background-color: aliceblue;
 }
 
 .main-container {
@@ -13,7 +14,10 @@ body, html {
     .main-flex-items {
         
         padding: 20px;
+        margin: 20px;
+        border-radius: 20px;
         flex: 1;
+        background-color: white;
 
         &.left {
             @media (max-width: "330px") {
@@ -38,13 +42,24 @@ body, html {
 
                 .form {
                     flex: 0;
-
+                    margin-top: 10px;
+                    
                     form {
                         display: flex;
                         justify-content: space-between;  
+                        height: 100px;
                         
-                        & input[type="text"] {
+                        input[type="text"] {
                             flex: 1;
+                            padding: 10px;
+                            font-size: 1.2rem;
+                            margin-right: 10px;
+                            border-radius: 10px;
+                        }
+
+                        input[type="submit"] {
+                            border-radius: 10px;
+                            width: 70px;
                         }
                     }
                 }                
@@ -87,14 +102,5 @@ ul {
             padding: 0;
             padding-bottom: 4px;
         }
-    }
-}
-
-form {
-    height: 100px;
-
-    #input {
-        padding: 10px;
-        font-size: 1.2rem;
     }
 }

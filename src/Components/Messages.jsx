@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 let drone = null;
 
@@ -6,7 +8,9 @@ export default function Messages() {
 
     const [messages, setMessages] = useState([]);
     const [myId, setMyId] = useState(null);
+    const [newUser, setNewUser] = useState(false);
     
+
     useEffect(() => {
         if(drone === null) {
             connectToScaledrone();
@@ -16,13 +20,13 @@ export default function Messages() {
     function connectToScaledrone() {
 
         drone = new window.Scaledrone(process.env.REACT_APP_CHANNEL_ID);
-        const room = drone.subscribe('first-chat');
+        const room = drone.subscribe('observable-first-chat');
 
         drone.on('open', error => {
             if (error) {
                 return console.error(error);
             }
-            setMyId(drone.clientId);
+            setMyId(drone.clientId);         
         });
 
         room.on('open', error => {
@@ -31,6 +35,10 @@ export default function Messages() {
             }    
         });
     
+        room.on('member_join', member => {
+            toastify();
+        });
+
         room.on('message', message => {
             setMessages(prevMessages => [
                 ...prevMessages,
@@ -40,20 +48,25 @@ export default function Messages() {
                     "text": message.data.text
                 }
             ]);
-        });
+        });     
    
+    }
+
+    const toastify = () => {
+        toast.success("New member joined!", {
+            position: toast.POSITION.TOP_CENTER
+        });
     }
 
     const sendMessage = (inputText) => {
         drone.publish({
-            room: 'first-chat',
+            room: 'observable-first-chat',
             message: {
             text: inputText
             }
         });
     }
-    
-   
+       
     function recalculateTimeStamp(timestamp) {
         
         const month   = timestamp.getUTCMonth() + 1; // months from 1-12
@@ -70,7 +83,7 @@ export default function Messages() {
     return(
         <div className='main-container'>
           <div className='main-flex-items left'>
-            
+              <ToastContainer autoClose={1000}/>
           </div>
           <div className='main-flex-items right'>
             <div className='chat-container'>

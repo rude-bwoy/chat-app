@@ -19,13 +19,15 @@ body, html {
         flex: 1;
         background-color: white;
 
-        &.left {
-            @media (max-width: "330px") {
-                display: none;
-            }        
-        }
+        // &.left {
+        //     @media (max-width: "330px") {
+        //         display: none;
+        //     }        
+        // }
 
         &.right {
+
+            z-index: 5;
 
             .chat-container {
 
@@ -33,11 +35,11 @@ body, html {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;    
-    
+
                 .messages {
                     flex: 1;
                     overflow-y: auto;
-                    overflow-x: visible;
+                    overflow-x: hidden;
                 }
 
                 .form {
@@ -69,7 +71,6 @@ body, html {
 }
 
 ul {
-    display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
@@ -77,14 +78,25 @@ ul {
     li {
         list-style: none;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
         
+        .avatar {
+            padding: 0 10px;
+        }
+
         .outer {
             padding: 10px;
-            background-color: antiquewhite;
+            background-color: #c5e4eb;
             border-radius: 10px;
+
+            &.messss {
+                background-color: #d0dbf7
+            }
         }
 
         &.me {
+            flex-direction: row-reverse;
             text-align: right;
             margin-left: auto;
         }
@@ -100,7 +112,19 @@ ul {
         
         .text {
             padding: 0;
+            font-size: 1.5rem;
             padding-bottom: 4px;
         }
+
+        .username {
+            padding-bottom: 5px;
+            font-size: 0.8rem;
+        }
+
+        .message-content {
+            display: flex;
+            flex-direction: row;
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Avatar from "boring-avatars";
+import ParticlesBg from 'particles-bg'
 
 let drone = null;
 
@@ -8,13 +10,14 @@ export default function Messages() {
 
     const [messages, setMessages] = useState([]);
     const [myId, setMyId] = useState(null);
-    const [newUser, setNewUser] = useState(false);
-    
+    const [myName, setMyName] = useState("");
 
     useEffect(() => {
+
         if(drone === null) {
             connectToScaledrone();
         }
+
     }, []);
 
     function connectToScaledrone() {
@@ -22,11 +25,24 @@ export default function Messages() {
         drone = new window.Scaledrone(process.env.REACT_APP_CHANNEL_ID);
         const room = drone.subscribe('observable-first-chat');
 
+        const fetchApi = async () => {
+            const response = await fetch("https://api.learn.skuflic.com/users/" + `${Math.floor(Math.random() * 100) + 1}`);
+            if (!response.ok) {
+                console.error(`Error: ${response.status} - ${response.statusText}`);
+                // Handle the error as needed
+                return;
+              }
+            const data = await response.json();
+            setMyName(data.name);
+        }
+        
+        fetchApi();
+
         drone.on('open', error => {
             if (error) {
                 return console.error(error);
             }
-            setMyId(drone.clientId);         
+            setMyId(drone.clientId);
         });
 
         room.on('open', error => {
@@ -44,16 +60,17 @@ export default function Messages() {
                 ...prevMessages,
                 {
                     "clientId": message.clientId,
+                    "messageId": message.id,
                     "timestamp": new Date(message.timestamp * 1000),
-                    "text": message.data.text
+                    "text": message.data.text,
+                    "username": message.data.username
                 }
             ]);
         });     
-   
     }
 
     const toastify = () => {
-        toast.success("New member joined!", {
+        toast.success(`New member joined!`, {
             position: toast.POSITION.TOP_CENTER
         });
     }
@@ -62,7 +79,8 @@ export default function Messages() {
         drone.publish({
             room: 'observable-first-chat',
             message: {
-            text: inputText
+            text: inputText,
+            username: myName
             }
         });
     }
@@ -83,18 +101,35 @@ export default function Messages() {
     return(
         <div className='main-container'>
           <div className='main-flex-items left'>
-              <ToastContainer autoClose={1000}/>
+              {/* <ToastContainer autoClose={1000}/> */}
+              <ParticlesBg   
+                            num={20} 
+                            type="circle" 
+                            bg={{
+                                position: "absolute",
+                                zIndex: 0,
+                                top: 0,
+                                left: 0
+                            }} 
+                            color={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+            />
+
           </div>
           <div className='main-flex-items right'>
             <div className='chat-container'>
                 <div className='messages'>
                     <ul>
                         {messages.map(message => 
-                            <li key={crypto.randomUUID()} className={message.clientId === myId ? "me" : ""}>
-                                <div className="outer">
-                                    <div className="text">{message.text}</div>
-                                    <div className="date">{recalculateTimeStamp(message.timestamp)}</div>
-                                </div>
+                            <li key={message.messageId} className={message.clientId === myId ? "me" : ""}>
+                                        <div className="message-content">
+                                            <div className="avatar"><Avatar size={40} name={message.username} variant="beam" colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}/></div>
+                                            <div className={message.clientId === myId ? "outer messss" : "outer"}>
+                                                {message.clientId !== myId && 
+                                                <div className="username">{message.username}</div>} 
+                                                <div className="text">{message.text}</div>
+                                                <div className="date">{recalculateTimeStamp(message.timestamp)}</div>
+                                            </div>
+                                        </div>
                             </li>)}  
                     </ul>
                 </div>
@@ -133,5 +168,4 @@ function Input(props) {
     );
 
 }
-
 

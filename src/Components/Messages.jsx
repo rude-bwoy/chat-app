@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 // import Avatar from "boring-avatars";
 // import ParticlesBg from 'particles-bg'
 
@@ -52,7 +52,7 @@ export default function Messages() {
         });
     
         room.on('member_join', member => {
-            toastify();
+            // toastify();
         });
 
         room.on('message', message => {          
@@ -79,11 +79,11 @@ export default function Messages() {
     }
 
 
-    const toastify = () => {
-        toast.success(`New member joined!`, {
-            position: toast.POSITION.TOP_CENTER
-        });
-    }
+    // const toastify = () => {
+    //     toast.success(`New member joined!`, {
+    //         position: toast.POSITION.TOP_CENTER
+    //     });
+    // }
 
     const sendMessage = (inputText) => {
         drone.publish({
@@ -108,7 +108,7 @@ export default function Messages() {
 
     return(
         <div className='main-container'>
-              <ToastContainer autoClose={1000}/>
+              {/* <ToastContainer autoClose={1000}/> */}
               {/* <ParticlesBg   
                             num={20} 
                             type="circle" 

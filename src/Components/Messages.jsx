@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Avatar from "boring-avatars";
+// import Avatar from "boring-avatars";
 // import ParticlesBg from 'particles-bg'
 
 
@@ -127,7 +127,7 @@ export default function Messages() {
                         {messages.map(message => 
                             <li key={message.messageId} data-messageid={message.messageId} className={message.clientId === myId ? "me" : ""}>
                                         <div className="message-content">
-                                            <div className="avatar"><Avatar size={40} name={message.username} variant="beam" colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}/></div>
+                                            {/* <div className="avatar"><Avatar size={40} name={message.username} variant="beam" colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}/></div> */}
                                             <div className={message.clientId === myId ? "outer messss" : "outer"}>
                                                 {message.clientId !== myId && 
                                                 <div className="username">{message.username}</div>} 

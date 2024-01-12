@@ -19,7 +19,7 @@ export default function Messages() {
             connectToScaledrone();
         }
 
-    }, []);
+    });
 
     function connectToScaledrone() {
 
@@ -27,7 +27,7 @@ export default function Messages() {
         const room = drone.subscribe('observable-first-chat');
 
         const fetchApi = async () => {
-            const response = await fetch("https://api.learn.skuflic.com/users/" + `${Math.floor(Math.random() * 100) + 1}`);
+            const response = await fetch(`https://api.learn.skuflic.com/users/${Math.floor(Math.random() * 100) + 1}`);
             if (!response.ok) {
                 console.error(`Error: ${response.status} - ${response.statusText}`);
                 return;
@@ -52,7 +52,7 @@ export default function Messages() {
         });
     
         room.on('member_join', member => {
-            // toastify();
+            toastify();
         });
 
         room.on('message', message => {          
@@ -108,7 +108,7 @@ export default function Messages() {
 
     return(
         <div className='main-container'>
-              {/* <ToastContainer autoClose={1000}/> */}
+              <ToastContainer autoClose={1000}/>
               <ParticlesBg   
                             num={20} 
                             type="circle" 

@@ -4,30 +4,38 @@ body, html {
  font-family: 'Courier New', Courier, monospace;
  font-weight: 900;
  background-color: aliceblue;
+ box-sizing: border-box;
 }
 
 .main-container {
     
     display: flex;
+    flex-direction: column;
     height: 100vh;
+    width: 75vw;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    @media (max-width: 472px) {
+        width: 100vw;
+    }
 
     .main-flex-items {
         
-        padding: 20px;
+        padding: 30px 50px;
         margin: 20px;
         border-radius: 20px;
         flex: 1;
-        background-color: white;
-
-        // &.left {
-        //     @media (max-width: "330px") {
-        //         display: none;
-        //     }        
-        // }
+        background-color: rgba(255,255,255, 0.9);
+        @media (max-width: 472px) {
+            padding: 0;
+        }
 
         &.right {
 
             z-index: 5;
+            overflow-y: auto;
+            overflow-x: hidden;
 
             .chat-container {
 
@@ -38,37 +46,61 @@ body, html {
 
                 .messages {
                     flex: 1;
-                    overflow-y: auto;
-                    overflow-x: hidden;
+                    word-break: break-all;
                 }
 
-                .form {
-                    flex: 0;
-                    margin-top: 10px;
-                    
-                    form {
-                        display: flex;
-                        justify-content: space-between;  
-                        height: 100px;
-                        
-                        input[type="text"] {
-                            flex: 1;
-                            padding: 10px;
-                            font-size: 1.2rem;
-                            margin-right: 10px;
-                            border-radius: 10px;
-                        }
-
-                        input[type="submit"] {
-                            border-radius: 10px;
-                            width: 70px;
-                        }
-                    }
-                }                
+                             
             }       
         }
     }
+
+    
+
 }
+
+.form {
+    flex: 0;
+    margin: 5px 20px 20px 20px;
+    z-index: 4;
+    
+    form {
+        display: flex;
+        justify-content: space-between;  
+        height: 100px;
+        
+        input[type="text"] {
+            background-color: rgba(255,255,255, 0.9);
+            flex: 1;
+            padding: 10px;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            border-radius: 10px;
+            border: none;
+            @media (max-width: 472px) {
+                width: 20px;
+            }
+
+            &:focus {
+                outline: none;
+                border: 3px solid #146A7C;
+            }
+        }
+
+        input[type="submit"] {
+            background-color: rgba(255,255,255, 0.9);
+            border: none;
+            border-radius: 10px;
+            width: 70px;
+            @media (max-width: 472px) {
+                width: 50px;
+            }
+            
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}   
 
 ul {
     flex-direction: column;
@@ -83,6 +115,16 @@ ul {
         
         .avatar {
             padding: 0 10px;
+            @media (max-width: 472px) {
+                padding: 0 4px;
+            }
+
+            svg {
+                @media (max-width: 472px) {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
         }
 
         .outer {
@@ -114,6 +156,9 @@ ul {
             padding: 0;
             font-size: 1.5rem;
             padding-bottom: 4px;
+            @media (max-width: 472px) {
+                font-size: 1rem;
+            }
         }
 
         .username {
@@ -128,3 +173,38 @@ ul {
 
     }
 }
+
+/* width and height */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    @media (max-width: 472px) {
+        display: none;
+    }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Move scrollbar to the left side */
+.main-flex-items.right::-webkit-scrollbar {
+    right: 0; /* Move scrollbar to the left */
+}
+
+/* Adjust styles for right-to-left scrollbar track */
+.main-flex-items.right::-webkit-scrollbar-track {
+    right: 0; /* Move scrollbar track to the left */
+}
+

@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Avatar from "boring-avatars";
 import ParticlesBg from 'particles-bg'
+
 
 let drone = null;
 
@@ -55,7 +56,7 @@ export default function Messages() {
             toastify();
         });
 
-        room.on('message', message => {
+        room.on('message', message => {          
             setMessages(prevMessages => [
                 ...prevMessages,
                 {
@@ -68,6 +69,16 @@ export default function Messages() {
             ]);
         });     
     }
+
+    const scrollDown = () => {
+        const ul = document.querySelector("ul");
+        const listItems = ul.querySelectorAll("li");
+        const lastListItem = listItems[listItems.length - 1];
+        if(lastListItem) {
+            lastListItem.scrollIntoView({ behavior: "smooth", block: "end" });
+        }
+    }
+
 
     const toastify = () => {
         toast.success(`New member joined!`, {
@@ -100,7 +111,6 @@ export default function Messages() {
 
     return(
         <div className='main-container'>
-          <div className='main-flex-items left'>
               {/* <ToastContainer autoClose={1000}/> */}
               <ParticlesBg   
                             num={20} 
@@ -113,14 +123,12 @@ export default function Messages() {
                             }} 
                             color={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
             />
-
-          </div>
           <div className='main-flex-items right'>
             <div className='chat-container'>
                 <div className='messages'>
                     <ul>
                         {messages.map(message => 
-                            <li key={message.messageId} className={message.clientId === myId ? "me" : ""}>
+                            <li key={message.messageId} data-messageid={message.messageId} className={message.clientId === myId ? "me" : ""}>
                                         <div className="message-content">
                                             <div className="avatar"><Avatar size={40} name={message.username} variant="beam" colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}/></div>
                                             <div className={message.clientId === myId ? "outer messss" : "outer"}>
@@ -130,12 +138,13 @@ export default function Messages() {
                                                 <div className="date">{recalculateTimeStamp(message.timestamp)}</div>
                                             </div>
                                         </div>
+                                        {scrollDown()}
                             </li>)}  
                     </ul>
                 </div>
-              <Input sendMessage={sendMessage}/>
             </div>
           </div>
+          <Input sendMessage={sendMessage}/>
         </div>
     ); 
 }

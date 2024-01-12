@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Avatar from "boring-avatars";
-import ParticlesBg from 'particles-bg'
+// import ParticlesBg from 'particles-bg'
 
 
 let drone = null;
@@ -109,7 +109,7 @@ export default function Messages() {
     return(
         <div className='main-container'>
               <ToastContainer autoClose={1000}/>
-              <ParticlesBg   
+              {/* <ParticlesBg   
                             num={20} 
                             type="circle" 
                             bg={{
@@ -119,7 +119,7 @@ export default function Messages() {
                                 left: 0
                             }} 
                             color={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-            />
+            /> */}
           <div className='main-flex-items right'>
             <div className='chat-container'>
                 <div className='messages'>

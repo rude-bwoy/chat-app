@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Avatar from "boring-avatars";
 import ParticlesBg from 'particles-bg'
@@ -30,7 +30,6 @@ export default function Messages() {
             const response = await fetch("https://api.learn.skuflic.com/users/" + `${Math.floor(Math.random() * 100) + 1}`);
             if (!response.ok) {
                 console.error(`Error: ${response.status} - ${response.statusText}`);
-                // Handle the error as needed
                 return;
               }
             const data = await response.json();
@@ -97,21 +96,19 @@ export default function Messages() {
     }
        
     function recalculateTimeStamp(timestamp) {
-        
-        const month   = timestamp.getUTCMonth() + 1; // months from 1-12
+        const month   = timestamp.getUTCMonth() + 1;
         const day     = timestamp.getUTCDate();
         const year    = timestamp.getUTCFullYear();
         const hours   = timestamp.getHours();
         const minutes = timestamp.getMinutes();
 
         const newDate = day + "." + month + "." + year + " " + hours + ":" + minutes;
-
         return newDate;
     }
 
     return(
         <div className='main-container'>
-              {/* <ToastContainer autoClose={1000}/> */}
+              <ToastContainer autoClose={1000}/>
               <ParticlesBg   
                             num={20} 
                             type="circle" 

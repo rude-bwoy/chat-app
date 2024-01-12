@@ -53,9 +53,6 @@ body, html {
             }       
         }
     }
-
-    
-
 }
 
 .form {
@@ -174,7 +171,6 @@ ul {
     }
 }
 
-/* width and height */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -183,28 +179,15 @@ ul {
     }
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
-}
-
-/* Move scrollbar to the left side */
-.main-flex-items.right::-webkit-scrollbar {
-    right: 0; /* Move scrollbar to the left */
-}
-
-/* Adjust styles for right-to-left scrollbar track */
-.main-flex-items.right::-webkit-scrollbar-track {
-    right: 0; /* Move scrollbar track to the left */
 }
 
